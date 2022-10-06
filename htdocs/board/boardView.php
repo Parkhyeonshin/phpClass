@@ -43,12 +43,14 @@
 
     // echo $myBoardID;
 
-    $sql = "SELECT b.boardTitle, m.youName, b.regTime, b.boardView, b.boardContents FROM myBoard b JOIN myMember m ON(m.myMemberID = b.myMemberID) WHERE b.myBoardID = {$myBoardID}";
-    $result = $connect -> query($sql);
-
     // 페이지 뷰 + 1 (UPDATE)
     $sql = "UPDATE myBoard SET boardView = boardView + 1 WHERE myBoardID = {$myBoardID}";
     $connect -> query($sql);
+    
+    $sql = "SELECT b.boardTitle, m.youName, b.regTime, b.boardView, b.boardContents FROM myBoard b JOIN myMember m ON(m.myMemberID = b.myMemberID) WHERE b.myBoardID = {$myBoardID}";
+    $result = $connect -> query($sql);
+
+    
     
     if($result){
         $info = $result -> fetch_array(MYSQLI_ASSOC);

@@ -31,6 +31,14 @@
                 </div>
                 <div class="board__search">
                     <div class="left">
+<?php
+    $sql = "SELECT boardContents FROM myboard";
+    $result = $connect -> query($sql);
+    if($result){
+        $count = $result -> num_rows;
+        echo "총 <em>".$count."</em>건의 게시물이 등록되어 있습니다.";
+    }
+?>
                         <!-- * 총 <em>1111</em>건의 게시물이 등록되어 있습니다. -->
                     </div>
                     <div class="right">
@@ -70,6 +78,7 @@
                         </thead>
                         <tbody>
 <?php
+ 
     if(isset($_GET['page'])){
         $page = (int)$_GET['page'];
     } else {
@@ -83,9 +92,11 @@
     //21~40 --> 2page  : DESC 20, 20  ---> ($viewNum * 2) - $viewNum
     //41~60 --> 3page  : DESC 40, 20  ---> ($viewNum * 3) - $viewNum
     //61~80 --> 4page  : DESC 60, 20  ---> ($viewNum * 4) - $viewNum
+
     // 두개의 테이블 join
     $sql = "SELECT b.myBoardID, b.boardTitle, m.youName, b.regTime, b.boardView FROM myBoard b JOIN myMember m ON (b.myMemberID = m.myMemberID) ORDER BY myBoardID DESC LIMIT {$viewLimit}, {$viewNum}";
     $result = $connect -> query($sql);
+    
     if($result){
         $count = $result -> num_rows;
         if($count > 0){
@@ -99,8 +110,12 @@
                 echo "<td>".$info['boardView']."</td>";
                 echo "</tr>";
             }
+        } 
+        else {
+            echo "<tr><td colspan='5'>게시글이 없습니다.</td></tr>";
         }
     }
+
 ?>
                             <!-- <tr>
                                 <td>1</td>
